@@ -42,13 +42,47 @@
             background-color: white;
             border-radius: 14px;
             margin-top: 10px;
-            transition: opacity 0.5s ease-in-out;
-            opacity: 0;
+            transition: transform 0.5s ease-in-out, height 0.5s ease-in-out, opacity 0.5s ease-in-out;
             user-select: none; /* 禁止文本選取 */
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            height: 100px;
+            overflow: hidden;
         }
 
         .content.active {
             opacity: 1;
+        }
+
+        .content.expanded {
+            transform: translateY(-50%);
+            height: 80vh;
+            width: 90%;
+            z-index: 10;
+            padding: 40px;
+            overflow: auto;
+        }
+
+        .content.hidden {
+            opacity: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f0f0f0;
+            border: none;
+            padding: 10px;
+            border-radius: 14px;
+            cursor: pointer;
+            z-index: 20;
+            display: none;
+        }
+
+        .close-btn.visible {
+            display: block;
         }
 
         body {
@@ -77,56 +111,76 @@
     <div class="title">
         <h2>商品預覽</h2>
     </div>
-    <div class="wrapper" id="wrapper">
-        <div class="card" data-index="0">
-            <img src="https://via.placeholder.com/300x300" alt="商品1">
-        </div>
-        <div class="card" data-index="1">
-            <img src="https://via.placeholder.com/300x300" alt="商品2">
-        </div>
-        <div class="card" data-index="2">
-            <img src="https://via.placeholder.com/300x300" alt="商品3">
-        </div>
-        <div class="card" data-index="3">
-            <img src="https://via.placeholder.com/300x300" alt="商品4">
-        </div>
-        <div class="card" data-index="4">
-            <img src="https://via.placeholder.com/300x300" alt="商品5">
-        </div>
-    </div>
+    <div class="wrapper" id="wrapper"></div>
     <div class="content" id="content">
         <h2 id="content-title">商品名稱</h2>
         <p id="content-description">這是一個商品描述的示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。</p>
+        <img id="content-image" src="" alt="商品圖片" class="hidden">
+        <p id="content-price" class="hidden">價格: </p>
     </div>
+    <button class="close-btn" id="close-btn">關閉</button>
 
     <script>
         const wrapper = document.getElementById('wrapper');
         const content = document.getElementById('content');
         const contentTitle = document.getElementById('content-title');
         const contentDescription = document.getElementById('content-description');
+        const contentImage = document.getElementById('content-image');
+        const contentPrice = document.getElementById('content-price');
+        const closeBtn = document.getElementById('close-btn');
 
         const contents = [
             {
                 title: '商品1',
-                description: '這是一個商品1的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。'
+                description: '這是一個商品1的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。',
+                image: '/myshop/product/photo_6129428389279416383_y.jpg',
+                price: '價格: RM 100'
             },
             {
                 title: '商品2',
-                description: '這是一個商品2的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。'
+                description: '這是一個商品2的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。',
+                image: '/myshop/product/photo_6129428389279416384_y.jpg',
+                price: '價格: RM 200'
             },
             {
                 title: '商品3',
-                description: '這是一個商品3的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。'
+                description: '這是一個商品3的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。',
+                image: '/myshop/product/photo_6129428389279416385_y.jpg',
+                price: '價格: RM 300'
             },
             {
                 title: '商品4',
-                description: '這是一個商品4的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。'
+                description: '這是一個商品4的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。',
+                image: '/myshop/product/photo_6129428389279416386_y.jpg',
+                price: '價格: RM 400'
             },
             {
                 title: '商品5',
-                description: '這是一個商品5的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。'
+                description: '這是一個商品5的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。',
+                image: '/myshop/product/photo_6129428389279416387_y.jpg',
+                price: '價格: RM 500'
+            },
+            {
+                title: '商品6',
+                description: '這是一個商品6的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。',
+                image: '/myshop/product/photo_6129428389279416388_y.jpg',
+                price: '價格: RM 600'
             }
         ];
+
+        // 動態生成卡片元素
+        contents.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.dataset.index = index;
+            const img = document.createElement('img');
+            img.src = item.image;
+            img.alt = item.title;
+            card.appendChild(img);
+            wrapper.appendChild(card);
+        });
+
+        let currentIndex = 0;
 
         wrapper.addEventListener('scroll', () => {
             let scrollLeft = wrapper.scrollLeft;
@@ -134,18 +188,57 @@
             let index = Math.round(scrollLeft / cardWidth);
 
             if (index >= 0 && index < contents.length) {
+                currentIndex = index;
                 content.classList.remove('active');
                 setTimeout(() => {
                     contentTitle.textContent = contents[index].title;
                     contentDescription.textContent = contents[index].description;
+                    contentImage.src = contents[index].image;
+                    contentPrice.textContent = contents[index].price;
                     content.classList.add('active');
                 }, 500);
             }
         });
 
+        content.addEventListener('click', () => {
+            content.classList.add('hidden');
+            setTimeout(() => {
+                contentTitle.textContent = '';
+                contentDescription.textContent = '';
+                contentImage.src = '';
+                contentPrice.textContent = '';
+                content.classList.add('expanded');
+                content.classList.remove('hidden');
+                contentTitle.textContent = contents[currentIndex].title;
+                contentDescription.textContent = contents[currentIndex].description;
+                contentImage.src = contents[currentIndex].image;
+                contentPrice.textContent = contents[currentIndex].price;
+                contentImage.classList.remove('hidden');
+                contentPrice.classList.remove('hidden');
+                closeBtn.classList.add('visible');
+            }, 500);
+        });
+
+        closeBtn.addEventListener('click', () => {
+            content.classList.add('hidden');
+            setTimeout(() => {
+                content.classList.remove('expanded');
+                contentTitle.textContent = contents[currentIndex].title;
+                contentDescription.textContent = contents[currentIndex].description;
+                contentImage.src = contents[currentIndex].image;
+                contentPrice.textContent = contents[currentIndex].price;
+                content.classList.remove('hidden');
+                contentImage.classList.add('hidden');
+                contentPrice.classList.add('hidden');
+                closeBtn.classList.remove('visible');
+            }, 500);
+        });
+
         // Initialize the first content as active
         contentTitle.textContent = contents[0].title;
         contentDescription.textContent = contents[0].description;
+        contentImage.src = contents[0].image;
+        contentPrice.textContent = contents[0].price;
         content.classList.add('active');
     </script>
 </body>
