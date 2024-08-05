@@ -190,6 +190,26 @@
             img.alt = item.title;
             card.appendChild(img);
             wrapper.appendChild(card);
+
+            // 為每個卡片添加點擊事件
+            card.addEventListener('click', () => {
+                content.classList.add('hidden');
+                setTimeout(() => {
+                    contentTitle.textContent = '';
+                    contentDescription.textContent = '';
+                    contentImage.src = '';
+                    contentPrice.textContent = '';
+                    content.classList.add('expanded');
+                    content.classList.remove('hidden');
+                    contentTitle.textContent = contents[index].title; // 使用當前卡片的索引
+                    contentDescription.textContent = contents[index].description;
+                    contentImage.src = contents[index].image;
+                    contentPrice.textContent = contents[index].price;
+                    contentImage.classList.remove('hidden');
+                    contentPrice.classList.remove('hidden');
+                    closeBtn.classList.add('visible');
+                }, 500);
+            });
         });
 
         let currentIndex = 0;
