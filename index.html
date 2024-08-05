@@ -199,16 +199,16 @@
             let cardWidth = wrapper.children[0].offsetWidth + 10; // including gap
             let index = Math.round(scrollLeft / cardWidth);
 
-            if (index >= 0 && index < contents.length && currentIndex !== index) {
+            if (index >= 0 && index < contents.length) {
                 currentIndex = index;
                 content.classList.remove('active');
-
-                contentTitle.textContent = contents[index].title;
-                contentDescription.textContent = contents[index].description;
-                contentImage.src = contents[index].image;
-                contentPrice.textContent = contents[index].price;
-
-                content.classList.add('active');
+                setTimeout(() => {
+                    contentTitle.textContent = contents[index].title;
+                    contentDescription.textContent = contents[index].description;
+                    contentImage.src = contents[index].image;
+                    contentPrice.textContent = contents[index].price;
+                    content.classList.add('active');
+                }, 500);
             }
         });
 
