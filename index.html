@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Shop</title>
+    <title>商品預覽</title>
     <style>
         .wrapper {
             display: flex;
@@ -42,6 +42,12 @@
             background-color: white;
             border-radius: 14px;
             margin-top: 10px;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
+        }
+
+        .content.active {
+            opacity: 1;
         }
 
         body {
@@ -63,22 +69,78 @@
 </head>
 <body>
     <div class="title">
-        <h2>My Shop</h2>
+        <h2>商品預覽</h2>
     </div>
-    <div class="wrapper">
-        <div class="card">
-            <img src="https://via.placeholder.com/300x300" alt="item 1">
+    <div class="wrapper" id="wrapper">
+        <div class="card" data-index="0">
+            <img src="https://via.placeholder.com/300x300" alt="商品1">
         </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/300x300" alt="item 2">
+        <div class="card" data-index="1">
+            <img src="https://via.placeholder.com/300x300" alt="商品2">
         </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/300x300" alt="item 3">
+        <div class="card" data-index="2">
+            <img src="https://via.placeholder.com/300x300" alt="商品3">
+        </div>
+        <div class="card" data-index="3">
+            <img src="https://via.placeholder.com/300x300" alt="商品4">
+        </div>
+        <div class="card" data-index="4">
+            <img src="https://via.placeholder.com/300x300" alt="商品5">
         </div>
     </div>
-    <div class="content">
-        <h2>Product name</h2>
-        <p>This is an example of a product description. You can add more detailed product information here so customers can learn more about your products.</p>
+    <div class="content" id="content">
+        <h2 id="content-title">商品名稱</h2>
+        <p id="content-description">這是一個商品描述的示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。</p>
     </div>
+
+    <script>
+        const wrapper = document.getElementById('wrapper');
+        const content = document.getElementById('content');
+        const contentTitle = document.getElementById('content-title');
+        const contentDescription = document.getElementById('content-description');
+
+        const contents = [
+            {
+                title: '商品1',
+                description: '這是一個商品1的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。'
+            },
+            {
+                title: '商品2',
+                description: '這是一個商品2的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。'
+            },
+            {
+                title: '商品3',
+                description: '這是一個商品3的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。'
+            },
+            {
+                title: '商品4',
+                description: '這是一個商品4的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。'
+            },
+            {
+                title: '商品5',
+                description: '這是一個商品5的描述示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。'
+            }
+        ];
+
+        wrapper.addEventListener('scroll', () => {
+            let scrollLeft = wrapper.scrollLeft;
+            let cardWidth = wrapper.children[0].offsetWidth + 10; // including gap
+            let index = Math.round(scrollLeft / cardWidth);
+
+            if (index >= 0 && index < contents.length) {
+                content.classList.remove('active');
+                setTimeout(() => {
+                    contentTitle.textContent = contents[index].title;
+                    contentDescription.textContent = contents[index].description;
+                    content.classList.add('active');
+                }, 500);
+            }
+        });
+
+        // Initialize the first content as active
+        contentTitle.textContent = contents[0].title;
+        contentDescription.textContent = contents[0].description;
+        content.classList.add('active');
+    </script>
 </body>
 </html>
