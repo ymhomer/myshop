@@ -44,6 +44,7 @@
             margin-top: 10px;
             transition: opacity 0.5s ease-in-out;
             opacity: 0;
+            user-select: none; /* 禁止文本選取 */
         }
 
         .content.active {
@@ -59,11 +60,16 @@
 
         h2 {
             margin: 0;
+            user-select: none; /* 禁止文本選取 */
         }
 
         .title {
             text-align: center;
             margin: 20px 0;
+        }
+
+        p {
+            user-select: none; /* 禁止文本選取 */
         }
     </style>
 </head>
