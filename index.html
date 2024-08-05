@@ -257,11 +257,11 @@
                 content.classList.remove('expanded');
                 contentTitle.textContent = contents[currentIndex].title;
                 contentDescription.textContent = contents[currentIndex].description;
-                contentImage.src = contents[currentIndex].image;
-                contentPrice.textContent = contents[currentIndex].price;
+                contentImage.src = ''; // 清除圖片
+                contentPrice.textContent = ''; // 清除價格
                 content.classList.remove('hidden');
-                contentImage.classList.add('hidden');
-                contentPrice.classList.add('hidden');
+                contentImage.classList.add('hidden'); // 確保圖片隱藏
+                contentPrice.classList.add('hidden'); // 確保價格隱藏
                 closeBtn.classList.remove('visible');
             }, 500);
         });
@@ -269,8 +269,8 @@
         // Initialize the first content as active
         contentTitle.textContent = contents[0].title;
         contentDescription.textContent = contents[0].description;
-        contentImage.src = contents[0].image;
-        contentPrice.textContent = contents[0].price;
+        contentImage.src = '';
+        contentPrice.textContent = '';
         content.classList.add('active');
     </script>
 </body>
