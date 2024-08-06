@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品預覽</title>
+    <title>My Shop</title>
     <style>
         .wrapper {
             display: flex;
@@ -117,6 +117,15 @@
         p {
             user-select: none; /* 禁止文本選取 */
         }
+
+        .details p {
+            margin: 5px 0;
+        }
+
+        .bundle-discount {
+            font-weight: bold;
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -128,7 +137,14 @@
         <h2 id="content-title">商品名稱</h2>
         <p id="content-description">這是一個商品描述的示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。</p>
         <img id="content-image" src="" alt="商品圖片" class="hidden">
-        <p id="content-price" class="hidden">價格: </p>
+        <div class="details">
+            <p id="content-price">價格: </p>
+            <p id="content-bundle-quantity">捆绑包数量: </p>
+            <p id="content-bundle-price">捆绑包价格: </p>
+            <p id="content-label">类别: </p>
+            <p id="content-status">状态: </p>
+            <p id="content-bundle-discount" class="bundle-discount">捆绑折扣: </p>
+        </div>
     </div>
     <button class="close-btn" id="close-btn">關閉</button>
 
@@ -139,6 +155,11 @@
         const contentDescription = document.getElementById('content-description');
         const contentImage = document.getElementById('content-image');
         const contentPrice = document.getElementById('content-price');
+        const contentBundleQuantity = document.getElementById('content-bundle-quantity');
+        const contentBundlePrice = document.getElementById('content-bundle-price');
+        const contentLabel = document.getElementById('content-label');
+        const contentStatus = document.getElementById('content-status');
+        const contentBundleDiscount = document.getElementById('content-bundle-discount');
         const closeBtn = document.getElementById('close-btn');
 
         const contents = [
@@ -146,77 +167,120 @@
                 title: '潮州 芋泥單黃',
                 description: '潮州鴻運餅家 芋泥單黃',
                 image: '/myshop/product/photo_6129428389279416383_y.jpg',
-                price: '價格: RM 19.50'
+                price: 19.50,
+                bundleQuantity: 4,
+                bundlePrice: 70.00,
+                label: '芋泥',
+                status: 'In Sale'
             },
             {
                 title: '潮州 芋泥雙黃',
                 description: '潮州鴻運餅家 芋泥雙黃',
                 image: '/myshop/product/photo_6129428389279416384_y.jpg',
-                price: '價格: RM 19.50'
+                price: 19.50,
+                bundleQuantity: 4,
+                bundlePrice: 70.00,
+                label: '芋泥',
+                status: 'In Sale'
             },
             {
                 title: '潮州 芋泥原味',
                 description: '潮州鴻運餅家 芋泥原味',
                 image: '/myshop/product/photo_6129428389279416385_y.jpg',
-                price: '價格: RM 19.50'
+                price: 19.50,
+                bundleQuantity: 4,
+                bundlePrice: 70.00,
+                label: '芋泥',
+                status: 'In Sale'
             },
             {
                 title: '經典 翡翠雙黃',
                 description: '潮州鴻運餅家 翡翠雙黃',
                 image: '/myshop/product/photo_6129428389279416386_y.jpg',
-                price: '價格: RM 19.50'
+                price: 19.50,
+                bundleQuantity: 4,
+                bundlePrice: 70.00,
+                label: '翡翠',
+                status: 'In Sale'
             },
             {
                 title: '經典 翡翠單黃',
                 description: '潮州鴻運餅家 翡翠單黃',
                 image: '/myshop/product/photo_6129428389279416387_y.jpg',
-                price: '價格: RM 19.50'
+                price: 19.50,
+                bundleQuantity: 4,
+                bundlePrice: 70.00,
+                label: '翡翠',
+                status: 'In Sale'
             },
             {
                 title: '經典 翡翠原味',
                 description: '潮州鴻運餅家 翡翠原味',
                 image: '/myshop/product/photo_6129428389279416388_y.jpg',
-                price: '價格: RM 19.50'
+                price: 19.50,
+                bundleQuantity: 4,
+                bundlePrice: 70.00,
+                label: '翡翠',
+                status: 'In Sale'
             }
         ];
 
-        // 動態生成卡片元素
-        contents.forEach((item, index) => {
-            const card = document.createElement('div');
-            card.classList.add('card');
-            card.dataset.index = index;
-            const img = document.createElement('img');
-            img.src = item.image;
-            img.alt = item.title;
-            card.appendChild(img);
-            wrapper.appendChild(card);
+        // 计算捆绑折扣百分比
+        function calculateBundleDiscount(price, bundleQuantity, bundlePrice) {
+            const totalUnitPrice = price * bundleQuantity;
+            const discount = ((totalUnitPrice - bundlePrice) / totalUnitPrice) * 100;
+            return discount.toFixed(2) + '%';
+        }
 
-            // 為每個卡片添加點擊事件
-            card.addEventListener('click', () => {
-                content.classList.add('hidden');
-                setTimeout(() => {
-                    contentTitle.textContent = '';
-                    contentDescription.textContent = '';
-                    contentImage.src = '';
-                    contentPrice.textContent = '';
-                    content.classList.add('expanded');
-                    content.classList.remove('hidden');
-                    contentTitle.textContent = contents[index].title; // 使用當前卡片的索引
-                    contentDescription.textContent = contents[index].description;
-                    contentImage.src = contents[index].image;
-                    contentPrice.textContent = contents[index].price;
-                    contentImage.classList.remove('hidden');
-                    contentPrice.classList.remove('hidden');
-                    closeBtn.classList.add('visible');
-                }, 500);
-            });
+        // 动态生成卡片元素
+        contents.forEach((item, index) => {
+            if (item.status === 'In Sale') {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.index = index;
+                const img = document.createElement('img');
+                img.src = item.image;
+                img.alt = item.title;
+                card.appendChild(img);
+                wrapper.appendChild(card);
+
+                // 为每个卡片添加点击事件
+                card.addEventListener('click', () => {
+                    content.classList.add('hidden');
+                    setTimeout(() => {
+                        contentTitle.textContent = '';
+                        contentDescription.textContent = '';
+                        contentImage.src = '';
+                        contentPrice.textContent = '';
+                        contentBundleQuantity.textContent = '';
+                        contentBundlePrice.textContent = '';
+                        contentLabel.textContent = '';
+                        contentStatus.textContent = '';
+                        contentBundleDiscount.textContent = '';
+                        content.classList.add('expanded');
+                        content.classList.remove('hidden');
+                        contentTitle.textContent = contents[index].title; // 使用当前卡片的索引
+                        contentDescription.textContent = contents[index].description;
+                        contentImage.src = contents[index].image;
+                        contentPrice.textContent = '價格: RM ' + contents[index].price.toFixed(2);
+                        contentBundleQuantity.textContent = '捆绑包数量: ' + contents[index].bundleQuantity;
+                        contentBundlePrice.textContent = '捆绑包价格: RM ' + contents[index].bundlePrice.toFixed(2);
+                        contentLabel.textContent = '类别: ' + contents[index].label;
+                        contentStatus.textContent = '状态: ' + contents[index].status;
+                        contentBundleDiscount.textContent = '捆绑折扣: ' + calculateBundleDiscount(contents[index].price, contents[index].bundleQuantity, contents[index].bundlePrice);
+                        contentImage.classList.remove('hidden');
+                        contentPrice.classList.remove('hidden');
+                        closeBtn.classList.add('visible');
+                    }, 500);
+                });
+            }
         });
 
         let currentIndex = 0;
 
         wrapper.addEventListener('scroll', () => {
             let scrollLeft = wrapper.scrollLeft;
-            let cardWidth = wrapper.children[0].offsetWidth + 10; // including gap
+            let cardWidth = wrapper.children[0].offsetWidth + 10;
             let index = Math.round(scrollLeft / cardWidth);
 
             if (index >= 0 && index < contents.length) {
@@ -225,8 +289,13 @@
                 setTimeout(() => {
                     contentTitle.textContent = contents[index].title;
                     contentDescription.textContent = contents[index].description;
-                    contentImage.src = contents[index].image;
-                    contentPrice.textContent = contents[index].price;
+                    //contentImage.src = contents[index].image;
+                    //contentPrice.textContent = '價格: RM ' + contents[index].price.toFixed(2);
+                    //contentBundleQuantity.textContent = '捆绑包数量: ' + contents[index].bundleQuantity;
+                    //contentBundlePrice.textContent = '捆绑包价格: RM ' + contents[index].bundlePrice.toFixed(2);
+                    //contentLabel.textContent = '类别: ' + contents[index].label;
+                    //contentStatus.textContent = '状态: ' + contents[index].status;
+                    //contentBundleDiscount.textContent = '捆绑折扣: ' + calculateBundleDiscount(contents[index].price, contents[index].bundleQuantity, contents[index].bundlePrice);
                     content.classList.add('active');
                 }, 500);
             }
@@ -239,12 +308,22 @@
                 contentDescription.textContent = '';
                 contentImage.src = '';
                 contentPrice.textContent = '';
+                contentBundleQuantity.textContent = '';
+                contentBundlePrice.textContent = '';
+                contentLabel.textContent = '';
+                contentStatus.textContent = '';
+                contentBundleDiscount.textContent = '';
                 content.classList.add('expanded');
                 content.classList.remove('hidden');
                 contentTitle.textContent = contents[currentIndex].title;
                 contentDescription.textContent = contents[currentIndex].description;
                 contentImage.src = contents[currentIndex].image;
-                contentPrice.textContent = contents[currentIndex].price;
+                contentPrice.textContent = '價格: RM ' + contents[currentIndex].price.toFixed(2);
+                contentBundleQuantity.textContent = '捆绑包数量: ' + contents[currentIndex].bundleQuantity;
+                contentBundlePrice.textContent = '捆绑包价格: RM ' + contents[currentIndex].bundlePrice.toFixed(2);
+                contentLabel.textContent = '类别: ' + contents[currentIndex].label;
+                contentStatus.textContent = '状态: ' + contents[currentIndex].status;
+                contentBundleDiscount.textContent = '捆绑折扣: ' + calculateBundleDiscount(contents[currentIndex].price, contents[currentIndex].bundleQuantity, contents[currentIndex].bundlePrice);
                 contentImage.classList.remove('hidden');
                 contentPrice.classList.remove('hidden');
                 closeBtn.classList.add('visible');
@@ -259,9 +338,14 @@
                 contentDescription.textContent = contents[currentIndex].description;
                 contentImage.src = ''; // 清除圖片
                 contentPrice.textContent = ''; // 清除價格
+                contentBundleQuantity.textContent = ''; // 清除捆绑包数量
+                contentBundlePrice.textContent = ''; // 清除捆绑包价格
+                contentLabel.textContent = ''; // 清除类别
+                contentStatus.textContent = ''; // 清除状态
+                contentBundleDiscount.textContent = ''; // 清除捆绑折扣
                 content.classList.remove('hidden');
-                contentImage.classList.add('hidden'); // 確保圖片隱藏
-                contentPrice.classList.add('hidden'); // 確保價格隱藏
+                contentImage.classList.add('hidden'); // 确保图片隐藏
+                contentPrice.classList.add('hidden'); // 确保价格隐藏
                 closeBtn.classList.remove('visible');
             }, 500);
         });
@@ -271,6 +355,11 @@
         contentDescription.textContent = contents[0].description;
         contentImage.src = '';
         contentPrice.textContent = '';
+        contentBundleQuantity.textContent = '';
+        contentBundlePrice.textContent = '';
+        contentLabel.textContent = '';
+        contentStatus.textContent = '';
+        contentBundleDiscount.textContent = '';
         content.classList.add('active');
     </script>
 </body>
