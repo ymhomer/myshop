@@ -9,7 +9,7 @@
             display: flex;
             gap: 10px;
             width: 100%;
-            height: 300px;
+            height: 400px;
             overflow-x: scroll;
             scroll-snap-type: x mandatory;
             padding: 10px 0;
@@ -19,10 +19,10 @@
             scroll-snap-align: center;
             box-sizing: border-box;
             flex-shrink: 0;
-            width: 90%;
+            width: 80%;
             height: 100%;
             background-color: white;
-            border-radius: 14px;
+            border-radius: 10px;
             text-align: center;
             border: 1px solid #ccc;
             display: flex;
@@ -34,7 +34,18 @@
 
         .card:hover {
             transform: scale(1.05);
-            border-color: #007bff;
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .card:active {
+                transform: scale(1.05);
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .button:active {
+                background-color: blue; /* 模拟 hover 效果 */
+            }
         }
 
         .card img {
@@ -46,10 +57,11 @@
         .content {
             padding: 20px;
             background-color: white;
+            border: 1px solid #ccc;
             border-radius: 14px;
             margin-top: 10px;
             transition: transform 0.5s ease-in-out, height 0.5s ease-in-out, opacity 0.5s ease-in-out;
-            user-select: none; /* 禁止文本選取 */
+            user-select: none;
             position: relative;
             z-index: 1;
             width: 90%;
@@ -66,13 +78,13 @@
             height: 80vh;
             width: 90%;
             z-index: 10;
-            padding: 40px;
             overflow: auto;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .content.expanded img {
             max-width: 80%;
+            max-height: 400px;
             border-radius: 14px;
             margin-bottom: 20px;
         }
