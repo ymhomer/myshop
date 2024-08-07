@@ -64,7 +64,7 @@
             user-select: none;
             position: relative;
             z-index: 1;
-            width: 90%;
+            width: 80%;
             height: 100px;
             overflow: hidden;
         }
@@ -75,8 +75,10 @@
 
         .content.expanded {
             transform: translateY(-50%);
+            position: absolute;
+            top: calc(50%);
             height: 80vh;
-            width: 90%;
+            width: 80%;
             z-index: 10;
             overflow: auto;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -136,7 +138,7 @@
         }
 
         .close-btn:hover {
-            background-color: #007bff;
+            background-color: gray;
             color: white;
         }
 
@@ -208,6 +210,7 @@
         const contentStatus = document.getElementById('content-status');
         const contentBundleDiscount = document.getElementById('content-bundle-discount');
         const closeBtn = document.getElementById('close-btn');
+        const isTouchDevice = 'ontouchstart' in document.documentElement;
 
         const contents = [
             {
@@ -271,6 +274,8 @@
                 status: 'In Sale'
             }
         ];
+
+        
 
         // 计算捆绑折扣百分比
         function calculateBundleDiscount(price, bundleQuantity, bundlePrice) {
@@ -410,6 +415,24 @@
         contentStatus.textContent = '';
         contentBundleDiscount.textContent = '';
         content.classList.add('active');
+
+        if (isTouchDevice) {
+            cards.forEach(card => {
+                // 模拟 hover 效果
+                card.addEventListener('touchstart', () => {
+                    card.classList.add('hover');
+                });
+
+                card.addEventListener('touchend', () => {
+                    card.classList.remove('hover');
+                });
+
+                // 防止点击后保持 hover 状态
+                card.addEventListener('touchcancel', () => {
+                    card.classList.remove('hover');
+                });
+            });
+        }
     </script>
 </body>
 </html>
