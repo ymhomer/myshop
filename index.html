@@ -188,8 +188,8 @@
         <p id="content-description">這是一個商品描述的示例。您可以在這裡添加更多詳細的商品信息，以便客戶了解更多關於您的商品。</p>
         <div class="details">
             <p id="content-price">價格: </p>
-            <p id="content-bundle-quantity">捆绑包数量: </p>
-            <p id="content-bundle-price">捆绑包价格: </p>
+            <p id="content-bundle-quantity">特惠组合数量: </p>
+            <p id="content-bundle-price">特惠组合价格: </p>
             <p id="content-label">类别: </p>
             <p id="content-status">状态: </p>
             <p id="content-bundle-discount" class="bundle-discount">捆绑折扣: </p>
@@ -316,8 +316,8 @@
                         contentDescription.textContent = contents[index].description;
                         contentImage.src = contents[index].image;
                         contentPrice.textContent = '價格: RM ' + contents[index].price.toFixed(2);
-                        contentBundleQuantity.textContent = '捆绑包数量: ' + contents[index].bundleQuantity;
-                        contentBundlePrice.textContent = '捆绑包价格: RM ' + contents[index].bundlePrice.toFixed(2);
+                        contentBundleQuantity.textContent = '特惠组合数量: ' + contents[index].bundleQuantity;
+                        contentBundlePrice.textContent = '特惠组合价格: RM ' + contents[index].bundlePrice.toFixed(2);
                         contentLabel.textContent = '类别: ' + contents[index].label;
                         contentStatus.textContent = '状态: ' + contents[index].status;
                         contentBundleDiscount.textContent = '捆绑折扣: ' + calculateBundleDiscount(contents[index].price, contents[index].bundleQuantity, contents[index].bundlePrice);
@@ -345,8 +345,8 @@
                     contentDescription.textContent = displayedItems[index].description;
                     //contentImage.src = displayedItems[index].image;
                     //contentPrice.textContent = '價格: RM ' + displayedItems[index].price.toFixed(2);
-                    //contentBundleQuantity.textContent = '捆绑包数量: ' + displayedItems[index].bundleQuantity;
-                    //contentBundlePrice.textContent = '捆绑包价格: RM ' + displayedItems[index].bundlePrice.toFixed(2);
+                    //contentBundleQuantity.textContent = '特惠组合数量: ' + displayedItems[index].bundleQuantity;
+                    //contentBundlePrice.textContent = '特惠组合价格: RM ' + displayedItems[index].bundlePrice.toFixed(2);
                     //contentLabel.textContent = '类别: ' + displayedItems[index].label;
                     //contentStatus.textContent = '状态: ' + displayedItems[index].status;
                     //contentBundleDiscount.textContent = '捆绑折扣: ' + calculateBundleDiscount(displayedItems[index].price, displayedItems[index].bundleQuantity, displayedItems[index].bundlePrice);
@@ -373,8 +373,8 @@
                 contentDescription.textContent = contents[currentIndex].description;
                 contentImage.src = contents[currentIndex].image;
                 contentPrice.textContent = '價格: RM ' + contents[currentIndex].price.toFixed(2);
-                contentBundleQuantity.textContent = '捆绑包数量: ' + contents[currentIndex].bundleQuantity;
-                contentBundlePrice.textContent = '捆绑包价格: RM ' + contents[currentIndex].bundlePrice.toFixed(2);
+                contentBundleQuantity.textContent = '特惠组合数量: ' + contents[currentIndex].bundleQuantity;
+                contentBundlePrice.textContent = '特惠组合价格: RM ' + contents[currentIndex].bundlePrice.toFixed(2);
                 contentLabel.textContent = '类别: ' + contents[currentIndex].label;
                 contentStatus.textContent = '状态: ' + contents[currentIndex].status;
                 contentBundleDiscount.textContent = '捆绑折扣: ' + calculateBundleDiscount(contents[currentIndex].price, contents[currentIndex].bundleQuantity, contents[currentIndex].bundlePrice);
@@ -392,8 +392,8 @@
                 contentDescription.textContent = contents[currentIndex].description;
                 contentImage.src = ''; // 清除圖片
                 contentPrice.textContent = ''; // 清除價格
-                contentBundleQuantity.textContent = ''; // 清除捆绑包数量
-                contentBundlePrice.textContent = ''; // 清除捆绑包价格
+                contentBundleQuantity.textContent = ''; // 清除特惠组合数量
+                contentBundlePrice.textContent = ''; // 清除特惠组合价格
                 contentLabel.textContent = ''; // 清除类别
                 contentStatus.textContent = ''; // 清除状态
                 contentBundleDiscount.textContent = ''; // 清除捆绑折扣
