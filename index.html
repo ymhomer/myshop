@@ -75,7 +75,7 @@
 
         .content.expanded {
             transform: translateY(-50%);
-            position: absolute;
+            position: fixed;
             top: calc(50%);
             height: 80vh;
             width: 80%;
@@ -126,7 +126,7 @@
         .close-btn {
             position: absolute;
             top: 10px;
-            right: 10px;
+            right: 20px;
             background-color: #f0f0f0;
             border: none;
             padding: 10px;
@@ -195,7 +195,7 @@
             <p id="content-bundle-discount" class="bundle-discount">捆绑折扣: </p>
         </div>
     </div>
-    <button class="close-btn" id="close-btn">關閉</button>
+    <button class="close-btn" id="close-btn">X</button>
 
     <script>
         const wrapper = document.getElementById('wrapper');
